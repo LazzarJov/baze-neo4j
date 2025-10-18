@@ -1,0 +1,35 @@
+# Build folders
+bin/
+obj/
+Debug/
+Release/
+x64/
+x86/
+
+# Visual Studio
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Logs
+*.log
+Logs/
+logs/
+
+# User secrets / configs
+appsettings.*.json
+secrets.json
+
+# Database / backups
+*.db
+*.sqlite
+*.bak
+*.mdf
+*.ldf
+
+# Cache
+[Bb]uild[Ll]og.*
+.vsconfig
