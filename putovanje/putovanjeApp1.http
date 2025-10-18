@@ -1,0 +1,5 @@
+﻿@putovanjeApp1_HostAddress = https://localhost:7235
+
+GET {{putovanjeApp1_HostAddress}}/api/aktivnosti
+
+###
