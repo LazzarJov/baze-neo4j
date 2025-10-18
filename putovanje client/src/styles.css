@@ -1,0 +1,13 @@
+body {
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    margin: 0;
+    padding: 0;
+    background: #f7f7f8;
+    color: #222;
+  }
+  
+  a { text-decoration: none; color: #0366d6; }
+  input { padding: 8px; width: 100%; box-sizing: border-box; }
+  button { padding: 8px 12px; cursor: pointer; }
+  .container { max-width: 900px; margin: 24px auto; padding: 12px; background: white; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+  

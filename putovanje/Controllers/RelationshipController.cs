@@ -23,7 +23,7 @@ namespace putovanjeApp1.Controllers
         {
             var exists = await _client.Cypher
                 .Match("(u:User)-[r:PLANIRAO]->(p:Putovanje)")
-                .Where((User u) => u.guid == userGuid)
+                .Where((User u) => u.Guid == userGuid)
                 .AndWhere((Putovanje p) => p.guid == putovanjeGuid)
                 .Return(r => r.Count())
                 .ResultsAsync;
@@ -33,7 +33,7 @@ namespace putovanjeApp1.Controllers
 
             await _client.Cypher
                 .Match("(u:User)", "(p:Putovanje)")
-                .Where((User u) => u.guid == userGuid)
+                .Where((User u) => u.Guid == userGuid)
                 .AndWhere((Putovanje p) => p.guid == putovanjeGuid)
                 .Create("(u)-[:PLANIRAO]->(p)")
                 .ExecuteWithoutResultsAsync();
@@ -47,7 +47,7 @@ namespace putovanjeApp1.Controllers
         {
             var exists = await _client.Cypher
                 .Match("(u:User)-[r:BIO_NA]->(p:Putovanje)")
-                .Where((User u) => u.guid == userGuid)
+                .Where((User u) => u.Guid == userGuid)
                 .AndWhere((Putovanje p) => p.guid == putovanjeGuid)
                 .Return(r => r.Count())
                 .ResultsAsync;
@@ -57,7 +57,7 @@ namespace putovanjeApp1.Controllers
 
             await _client.Cypher
                 .Match("(u:User)", "(p:Putovanje)")
-                .Where((User u) => u.guid == userGuid)
+                .Where((User u) => u.Guid == userGuid)
                 .AndWhere((Putovanje p) => p.guid == putovanjeGuid)
                 .Create("(u)-[:BIO_NA]->(p)")
                 .ExecuteWithoutResultsAsync();
@@ -71,7 +71,7 @@ namespace putovanjeApp1.Controllers
         {
             var exists = await _client.Cypher
                 .Match("(u:User)-[r:NAPISAO]->(rev:Review)")
-                .Where((User u) => u.guid == userGuid)
+                .Where((User u) => u.Guid == userGuid)
                 .AndWhere((Review rev) => rev.guid == reviewGuid)
                 .Return(r => r.Count())
                 .ResultsAsync;
@@ -81,7 +81,7 @@ namespace putovanjeApp1.Controllers
 
             await _client.Cypher
                 .Match("(u:User)", "(rev:Review)")
-                .Where((User u) => u.guid == userGuid)
+                .Where((User u) => u.Guid == userGuid)
                 .AndWhere((Review rev) => rev.guid == reviewGuid)
                 .Create("(u)-[:NAPISAO]->(rev)")
                 .ExecuteWithoutResultsAsync();
@@ -192,7 +192,7 @@ namespace putovanjeApp1.Controllers
         {
             var exists = await _client.Cypher
                 .Match("(u:User)-[r:VOLI]->(a:Aktivnost)")
-                .Where((User u) => u.guid == userGuid)
+                .Where((User u) => u.Guid == userGuid)
                 .AndWhere((Aktivnost a) => a.guid == aktivnostGuid)
                 .Return(r => r.Count())
                 .ResultsAsync;
@@ -202,7 +202,7 @@ namespace putovanjeApp1.Controllers
 
             await _client.Cypher
                 .Match("(u:User)", "(a:Aktivnost)")
-                .Where((User u) => u.guid == userGuid)
+                .Where((User u) => u.Guid == userGuid)
                 .AndWhere((Aktivnost a) => a.guid == aktivnostGuid)
                 .Create("(u)-[:VOLI]->(a)")
                 .ExecuteWithoutResultsAsync();

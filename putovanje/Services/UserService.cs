@@ -17,17 +17,17 @@ namespace putovanjeApp1.Services
         // Registracija korisnika
         public async Task<User> RegisterAsync(User user)
         {
-            user.guid = Guid.NewGuid();
+            user.Guid = Guid.NewGuid();
 
             await _client.Cypher
                 .Create("(u:User $user)")
                 .WithParam("user", new
                  {
-                     Guid = user.guid.ToString(),//sto to.string? i jel treba mala slova
-                    Ime = user.ime,
-                    Email = user.email,
-                    PasswordHash = user.passwordHash,
-                    Interesovanja = user.interesovanja
+                     Guid = user.Guid.ToString(),//sto to.string? i jel treba mala slova
+                    Ime = user.Ime,
+                    Email = user.Email,
+                    PasswordHash = user.PasswordHash,
+                    Interesovanja = user.Interesovanja
      })
      .ExecuteWithoutResultsAsync();
 
@@ -40,8 +40,8 @@ namespace putovanjeApp1.Services
         {
             var result = await _client.Cypher
                 .Match("(u:User)")
-                .Where((User u) => u.email == email && u.passwordHash == password)
-                .Return(u => u.As<User>().guid)
+                .Where((User u) => u.Email == email && u.PasswordHash == password)
+                .Return(u => u.As<User>().Guid)
                 .ResultsAsync;
 
             return result.FirstOrDefault();
@@ -100,7 +100,7 @@ namespace putovanjeApp1.Services
         {
             var destinations = await _client.Cypher
                 .Match("(u:User)-[:VOLI]->(a:Aktivnost)<-[:NUDI]-(d:Destinacija)")
-                .Where((User u) => u.guid == userId)
+                .Where((User u) => u.Guid == userId)
                 .Return(d => d.As<Destinacija>())
                 .ResultsAsync;
 
@@ -114,7 +114,7 @@ namespace putovanjeApp1.Services
             var activities = await _client.Cypher
                 // 1️⃣ Korisnik -> BIO_NA -> Putovanje -> OBUHVATA -> Destinacija -> IMA_ATRAKCIJU -> Atrakcija
                 .Match("(u:User)-[:BIO_NA]->(p:Putovanje)-[:OBUHVATA]->(d:Destinacija)-[:IMA_ATRAKCIJU]->(at:Atrakcija)")
-                .Where((User u) => u.guid == userGuid)
+                .Where((User u) => u.Guid == userGuid)
                 .With("u, at, d")
 
                 // 2️⃣ Drugi korisnici koji su bili na istim destinacijama
@@ -136,7 +136,7 @@ namespace putovanjeApp1.Services
             var similarUsers = await _client.Cypher
                 .Match("(u:User {guid: $userGuid})-[:VOLI|BIO_NA]->(x)<-[:VOLI|BIO_NA]-(other:User)")
                 .WithParam("userGuid", userGuid)
-                .ReturnDistinct(other => other.As<User>().guid)
+                .ReturnDistinct(other => other.As<User>().Guid)
                 .ResultsAsync;
 
             var similarUserGuids = similarUsers.ToList();

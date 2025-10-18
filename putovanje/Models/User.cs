@@ -2,10 +2,10 @@
 
 public class User
 {
-    public Guid? guid { get; set; } = Guid.NewGuid();
-    public string? ime { get; set; }
-    public string? email { get; set; }
-    public string? passwordHash { get; set; }
-    public List<string> interesovanja { get; set; } = new();
+    public Guid? Guid { get; set; }
+    public string? Ime { get; set; }
+    public string? Email { get; set; }
+    public string? PasswordHash { get; set; }
+    public List<string> Interesovanja { get; set; } = new();
 }
 

@@ -49,7 +49,7 @@ namespace putovanjeApp1.Controllers
             if (user == null) return NotFound();
 
             // Sakrij passwordHash pre slanja
-            user.passwordHash = null;
+            user.PasswordHash = null;
             return Ok(user);
         }
 
@@ -100,7 +100,7 @@ namespace putovanjeApp1.Controllers
         {
             var users = await _client.Cypher
                 .Match("(u:User)")
-                .Where((User u) => u.guid == guid)
+                .Where((User u) => u.Guid == guid)
                 .Return(u => u.As<User>())
                 .ResultsAsync;
 
@@ -127,7 +127,7 @@ namespace putovanjeApp1.Controllers
         {
             await _client.Cypher
                 .Match("(u:User)")
-                .Where((User u) => u.guid == id)
+                .Where((User u) => u.Guid == id)
                 .Set("u = $izmenjeniUser")
                 .WithParam("izmenjeniUser", izmenjeniUser)
                 .ExecuteWithoutResultsAsync();

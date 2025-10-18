@@ -39,7 +39,16 @@ await client.ConnectAsync();
 
 builder.Services.AddSingleton<IGraphClient>(client);
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReactApp", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173") // React dev server
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
 
 // Dodaj servis
 //builder.Services.AddScoped<Neo4jService>();
@@ -90,6 +99,8 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowReactApp");
 
 app.UseAuthentication();
 app.UseAuthorization();
