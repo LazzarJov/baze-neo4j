@@ -2,6 +2,8 @@
 using Neo4jClient.Cypher;
 using putovanjeApp1.Dtos;
 using putovanjeApp1.Models;
+using System.Xml.Serialization;
+using BCrypt.Net;
 
 namespace putovanjeApp1.Services
 {
@@ -14,29 +16,54 @@ namespace putovanjeApp1.Services
             _client = client;
         }
 
-        // Registracija korisnika
-        public async Task<User> RegisterAsync(User user)
+
+
+    public async Task<User> RegisterAsync(User user)
         {
             user.Guid = Guid.NewGuid();
 
+            var provided = user.PasswordHash ?? string.Empty;
+            string passwordHash;
+
+            if (string.IsNullOrWhiteSpace(provided))
+            {
+                throw new ArgumentException("Password must be provided in user.PasswordHash (plain) for registration.");
+            }
+
+         
+            if (provided.StartsWith("$2a$") || provided.StartsWith("$2b$") || provided.StartsWith("$2y$"))
+            {
+                passwordHash = provided;
+            }
+            else
+            {
+                // heširaj plain lozinku
+                passwordHash = BCrypt.Net.BCrypt.HashPassword(provided);
+            }
+
+            // 3) Upiši u Neo4j - koristimo konzistentna imena property-ja (npr. mala slova)
+            //    (Neo4j property imena su case-sensitive, pa koristi jedno pravilo u čitavom projektu)
             await _client.Cypher
                 .Create("(u:User $user)")
                 .WithParam("user", new
-                 {
-                     Guid = user.Guid.ToString(),//sto to.string? i jel treba mala slova
-                    Ime = user.Ime,
-                    Email = user.Email,
-                    PasswordHash = user.PasswordHash,
-                    Interesovanja = user.Interesovanja
-     })
-     .ExecuteWithoutResultsAsync();
+                {
+                    guid = user.Guid.ToString(),   // čuvamo GUID kao string u bazi
+                    ime = user.Ime,
+                    email = user.Email,
+                    passwordHash = passwordHash,
+                    interesovanja = user.Interesovanja ?? new List<string>()
+                })
+                .ExecuteWithoutResultsAsync();
 
+            // 4) Sakrij password pre vraćanja objekta nazad
+            user.PasswordHash = null;
 
             return user;
         }
 
-        // Login - vraća Guid korisnika ako postoji
-        public async Task<Guid?> LoginAsync(string email, string password)
+
+    // Login - vraća Guid korisnika ako postoji
+    public async Task<Guid?> LoginAsync(string email, string password)
         {
             var result = await _client.Cypher
                 .Match("(u:User)")

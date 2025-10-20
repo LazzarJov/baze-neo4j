@@ -16,12 +16,12 @@ export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <nav style={{ padding: 10, borderBottom: "1px solid #ddd" }}>
-          <Link to="/" style={{ marginRight: 10 }}>Home</Link>
-          <Link to="/profile" style={{ marginRight: 10 }}>Profil</Link>
-          <Link to="/login" style={{ marginRight: 10 }}>Login</Link>
-          <Link to="/register">Register</Link>
-        </nav>
+         <nav style={{ padding: 10, borderBottom: "1px solid #ddd" }}>
+-          <Link to="/" style={{ marginRight: 10 }}>Home</Link>
+-          <Link to="/profile" style={{ marginRight: 10 }}>Profil</Link>
+-          <Link to="/login" style={{ marginRight: 10 }}>Login</Link>
+-          <Link to="/register">Register</Link>
+-        </nav>
 
         <Routes>
           <Route path="/" element={<Home />} />
